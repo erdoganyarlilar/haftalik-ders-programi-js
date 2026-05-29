@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Haftalık Ders Programı</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+        
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <!-- React + Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            body: ['Montserrat', 'sans-serif'],
+            display: ['Montserrat', 'sans-serif'],
+          },
+          colors: {
+            bg: 'var(--color-bg)',
+            surface: 'var(--color-surface)',
+            'surface-2': 'var(--color-surface-2)',
+            'surface-offset': 'var(--color-surface-offset)',
+            border: 'var(--color-border)',
+            divider: 'var(--color-divider)',
+            text: 'var(--color-text)',
+            muted: 'var(--color-text-muted)',
+            faint: 'var(--color-text-faint)',
+            primary: 'var(--color-primary)',
+            'primary-hover': 'var(--color-primary-hover)',
+            'primary-hl': 'var(--color-primary-highlight)',
+            error: 'var(--color-error)',
+            'error-hl': 'var(--color-error-highlight)',
+            warning: 'var(--color-warning)',
+            success: 'var(--color-success)',
+            'success-hl': 'var(--color-success-highlight)',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* ─── Design Tokens ─────────────────────────────── */
+    :root {
+      --color-bg:#79c2ff;
+      --color-surface: #f9f8f5;
+      --color-surface-2: #fbfbf9;
+      --color-surface-offset: #f3f0ec;
+      --color-surface-offset-2: #edeae5;
+      --color-surface-dynamic: #e6e4df;
+      --color-divider: #dcd9d5;
+      --color-border: #d4d1ca;
+      --color-text: #28251d;
+      --color-text-muted: #7a7974;
+      --color-text-faint: #bab9b4;
+      --color-text-inverse: #f9f8f4;
+      --color-primary: #E64800;
+      --color-primary-hover: #a93200;
+      --color-primary-active: #701e00;
+      --color-primary-highlight: #cedcd8;
+      --color-error: #a12c7b;
+      --color-error-hover: #7d1e5e;
+      --color-error-highlight: #e0ced7;
+      --color-warning: #964219;
+      --color-warning-highlight: #ddcfc6;
+      --color-success: #437a22;
+      --color-success-highlight: #d4dfcc;
+      --color-orange: #da7101;
+      --color-gold: #d19900;
+      --color-blue: #006494;
+      --color-purple: #7a39bb;
+      --shadow-sm: 0 1px 2px oklch(0.2 0.01 80 / 0.06);
+      --shadow-md: 0 4px 12px oklch(0.2 0.01 80 / 0.08);
+      --shadow-lg: 0 12px 32px oklch(0.2 0.01 80 / 0.12);
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+      --radius-full: 9999px;
+      --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      --font-body: 'Montserrat', sans-serif;
+      --font-display: 'Montserrat', sans-serif;
+    }
+
+    /* ─── Base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      min-height: 100dvh;
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      color: var(--color-text);
+      background-color: var(--color-bg);
+    }
+    button { cursor: pointer; background: none; border: none; font: inherit; color: inherit; }
+    input, select, textarea { font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
+
+    /* ─── Shimmer skeleton ─────────────────────────── */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .skeleton {
+      background: linear-gradient(90deg,
+        var(--color-surface-offset) 25%,
+        var(--color-surface-dynamic) 50%,
+        var(--color-surface-offset) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s ease-in-out infinite;
+      border-radius: var(--radius-sm);
+    }
+
+    /* ─── Animations ───────────────────────────────── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in-up { animation: fadeInUp 220ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .slide-down { animation: slideDown 180ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .scale-in { animation: scaleIn 200ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+    /* ─── Modal backdrop ────────────────────────────── */
+    .modal-backdrop {
+      position: fixed; inset: 0;
+      background: oklch(0.1 0.01 80 / 0.5);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 50; padding: 1rem;
+      animation: fadeIn 160ms ease both;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ─── Scrollbar ─────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: var(--radius-full); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-text-faint); }
+
+    /* ─── Tag colors ─────────────────────────────────── */
+    .tag-matematik  { background: var(--color-primary-highlight); color: #000000; }
+    .tag-fizik      { background: var(--color-success-highlight); color: #000000; }
+    .tag-kimya      { background: var(--color-error-highlight);   color: #000000; }
+    .tag-biyoloji   { background: var(--color-warning-highlight); color: #000000; }
+    .tag-tarih      { color: #000000; }
+    .tag-cografya   { color: #000000; }
+    .tag-edebiyat   { color: #000000; }
+    .tag-diger      { color: #000000; }
+
+    .day-color-0 { border-color: var(--color-primary); }
+    .day-color-1 { border-color: var(--color-success); }
+    .day-color-2 { border-color: var(--color-orange); }
+    .day-color-3 { border-color: var(--color-blue); }
+    .day-color-4 { border-color: var(--color-purple); }
+    .day-color-5 { border-color: var(--color-warning); }
+    .day-color-6 { border-color: var(--color-gold); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" src="./index.js"></script>
+
+</body>
+</html>
